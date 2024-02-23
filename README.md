@@ -1,8 +1,8 @@
 # Laboratorio per il corso di Linguaggi Formali e Traduttori
 ## 2. P-Lang
 ### 2.1 Analizzatore lessicale
-Gli esercizi di questa sezione riguardano l'implementazione di un analizzatore lessicale per un semplice linguaggio di
-programmazione. Lo scopo di un analizzatore lessicale è di leggere un testo e di ottenere una corrispondente sequenza di
+Implementare l'analizzatore lessicale per un semplice linguaggio di programmazione. 
+Lo scopo di un analizzatore lessicale è di leggere un testo e di ottenere una corrispondente sequenza di
 **token**, dove un token corrisponde ad un'unità lessicale, come un _numero_, un _identificatore_, un 
 _operatore relazionale_, una _parola chiave_, ecc.
 Nelle sezioni successive, l'analizzatore lessicale da implementare sarà poi utilizzato per fornire l'input a programmi
@@ -46,18 +46,30 @@ dei token espressi come costanti numeriche.
 
 Gli identificatori corrispondono all'espressione regolare:
 
-```text
-[a-zA-Z][a-zA-Z0-9]*
+```regexp
+(?:[a-zA-Z]|_+[a-zA-Z0-9])[a-zA-Z-0-9_]*
 ```
 
 e i numeri corrispondono all'espressione regolare
 
-```text
-0?[1-9][0-9]*
+```regexp
+0|[1-9][0-9]*
 ```
 
 L'analizzatore lessicale dovrà ignorare tutti i caratteri riconosciuti come _spazi_ (incluse le tabluazioni e i ritorni
-a capo), ma dovrà segnalare la presenza di caratteri illeciti, come ad esempio `#` e `@`.  
+a capo), ma dovrà segnalare la presenza di caratteri illeciti, come ad esempio `#` e `@`. 
+
+I commenti possono essere scritti in due modi diversi:
+
++ I commenti inline sono introdotti da `//` e terminano con un carattere di new-line o un EOF.
++ I commenti a blocco sono delimitati da `/*` e `*/`
+
+I commenti devono essere ignorati dal programma per l'analisi lessicale. In altre parole, per le parti dell'input che contengono
+commenti, non deve essere generato alcun token. Oltre ai simboli menzionati, un commento può contenere simboli arbitrari,
+non facenti parte del pattern di alcun token.  
+Se un commento a blocco è aperto ma non chiuso prima della fine del file deve essere segnalato un errore. Si noti che ci
+possono essere più commenti consecutivi non separati da alcun token.
+
 L'output dell'analizzatore lessicale dovrà avere la forma:
 
 $$ 
@@ -116,6 +128,8 @@ In generale, i token della tabella hanno un attributo: ad esempio, l'attributo d
 + `else 5 == print < end`
 
 Altri errori invece, come eventuali simboli non previsti o sequenze illecite (come nel caso di `17&5`, oppure dell'input `|||`) devono essere rilevati.
+
+
 
 ---
 Per realizzare l'analizzatore lessicale, si possono usare le seguenti classi. Definiamo una classe `Tag` utilizzando le costanti intere nella colonna **Nome** della tabella dei token per rappresentare i nomi dei token. Per i token che corrispondono ad un solo carattere (tranne per `<` e `>`, che corrispondono a "RelOp") si può utilizzare il codice ASCII del carattere: ad esempio, il nome del segno di somma `+` è 43, ossia il codice ASCII del `+`.
