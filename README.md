@@ -119,3 +119,9 @@ Altri errori invece, come eventuali simboli non previsti o sequenze illecite (co
 
 ---
 Per realizzare l'analizzatore lessicale, si possono usare le seguenti classi. Definiamo una classe `Tag` utilizzando le costanti intere nella colonna **Nome** della tabella dei token per rappresentare i nomi dei token. Per i token che corrispondono ad un solo carattere (tranne per `<` e `>`, che corrispondono a "RelOp") si può utilizzare il codice ASCII del carattere: ad esempio, il nome del segno di somma `+` è 43, ossia il codice ASCII del `+`.
+
+Definiamo una classe `Token` per rappresentare i token.
+Definiamo la classe `WordToken` (derivata da `Token`), per rappresentare i token che corrispondono agli identificatori,
+alle parole chiave, agli operatori relazionali e agli
+elementi della sintassi che consistono di piu caratteri (ad esempio `&&`).
+Definiamo la classe `NumberToken` (derivata da `Token`) per rappresentare i token che corrispondono ai numeri.
