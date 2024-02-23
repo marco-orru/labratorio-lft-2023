@@ -19,8 +19,9 @@ public class Token {
     }
 
     /**
-     * Gets the tag of this token.
-     * @return The tag of this token.
+     * Gets the tag associated with this token.
+     *
+     * @return The integer identifier for this token.
      */
     public int getTag() {
         return this.tag;
